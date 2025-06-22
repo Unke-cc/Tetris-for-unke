@@ -1098,7 +1098,18 @@
         
         if (gameMode === 'CLASSIC') {
             level = Math.floor(lines / 10) + 1;
-            dropInterval = Math.max(100, 1000 - (level - 1) * 50);
+            // 增强版等级下落速度：更快的速度递增
+            // 1级: 1000ms, 2级: 850ms, 3级: 700ms, 4级: 550ms, 5级: 400ms
+            // 6级: 300ms, 7级: 200ms, 8级: 150ms, 9级: 100ms, 10级+: 50ms
+            if (level <= 5) {
+                dropInterval = Math.max(400, 1000 - (level - 1) * 150);
+            } else if (level <= 8) {
+                dropInterval = Math.max(100, 400 - (level - 5) * 100);
+            } else if (level === 9) {
+                dropInterval = 100;
+            } else {
+                dropInterval = 50; // 10级及以上保持最高速度
+            }
         } else if (gameMode === 'SPRINT' && lines >= 40) {
             gameOver();
         }
