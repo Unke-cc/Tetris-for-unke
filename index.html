@@ -77,11 +77,28 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: clamp(1.5rem, 4vw, 3.5rem);
             text-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
             margin-bottom: 30px;
             text-align: center;
             position: relative;
+        }
+        
+        /* 大屏幕标题优化 */
+        @media (min-width: 1400px) {
+            h1 {
+                font-size: clamp(2.5rem, 3.5vw, 4rem);
+                margin-bottom: 40px;
+                text-shadow: 0 0 25px rgba(88, 166, 255, 0.6);
+            }
+        }
+        
+        @media (min-width: 1920px) {
+            h1 {
+                font-size: clamp(3rem, 3vw, 4.5rem);
+                margin-bottom: 50px;
+                text-shadow: 0 0 30px rgba(88, 166, 255, 0.7);
+            }
         }
         
         h1::after {
@@ -100,9 +117,9 @@
         .tetris-app {
             display: grid;
             grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr);
-            gap: clamp(15px, 3vw, 25px);
+            gap: clamp(15px, 3vw, 35px);
             align-items: start;
-            padding: clamp(15px, 3vw, 25px);
+            padding: clamp(15px, 3vw, 35px);
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -111,8 +128,27 @@
             box-shadow: var(--glass-shadow);
             position: relative;
             overflow: hidden;
-            max-width: min(95vw, 1200px);
+            max-width: min(95vw, 1600px);
             margin: 0 auto;
+        }
+        
+        /* 大屏幕优化 */
+        @media (min-width: 1400px) {
+            .tetris-app {
+                grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+                gap: 40px;
+                padding: 40px;
+                max-width: min(90vw, 1800px);
+            }
+        }
+        
+        @media (min-width: 1920px) {
+            .tetris-app {
+                grid-template-columns: minmax(280px, 1fr) auto minmax(280px, 1fr);
+                gap: 50px;
+                padding: 50px;
+                max-width: min(85vw, 2200px);
+            }
         }
         
         @media (max-width: 768px) {
@@ -154,9 +190,24 @@
         .panel {
             display: flex;
             flex-direction: column;
-            gap: clamp(12px, 2.5vw, 18px);
-            width: clamp(160px, 18vw, 200px);
+            gap: clamp(12px, 2.5vw, 22px);
+            width: clamp(160px, 18vw, 240px);
             min-width: 160px;
+        }
+        
+        /* 大屏幕面板优化 */
+        @media (min-width: 1400px) {
+            .panel {
+                width: clamp(200px, 16vw, 280px);
+                gap: 25px;
+            }
+        }
+        
+        @media (min-width: 1920px) {
+            .panel {
+                width: clamp(240px, 14vw, 320px);
+                gap: 30px;
+            }
         }
         
         @media (max-width: 1024px) {
@@ -170,7 +221,7 @@
             background: var(--glass-bg);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            padding: clamp(10px, 2.5vw, 18px);
+            padding: clamp(10px, 2.5vw, 25px);
             border-radius: 12px;
             border: 1px solid var(--glass-border);
             text-align: center;
@@ -179,6 +230,23 @@
             overflow: hidden;
             transition: all 0.3s ease;
             min-height: 70px;
+        }
+        
+        /* 大屏幕信息框优化 */
+        @media (min-width: 1400px) {
+            .info-box {
+                padding: 28px;
+                border-radius: 15px;
+                min-height: 85px;
+            }
+        }
+        
+        @media (min-width: 1920px) {
+            .info-box {
+                padding: 35px;
+                border-radius: 18px;
+                min-height: 100px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -238,8 +306,23 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
             width: 100%;
-            max-width: 400px;
+            max-width: 480px;
             margin: 0 auto;
+        }
+        
+        /* 大屏幕游戏区域优化 */
+        @media (min-width: 1400px) {
+            .game-area {
+                max-width: 520px;
+                border-radius: 18px;
+            }
+        }
+        
+        @media (min-width: 1920px) {
+            .game-area {
+                max-width: 600px;
+                border-radius: 20px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -262,7 +345,22 @@
             border-radius: 12px;
             width: 100%;
             height: auto;
-            max-width: 360px;
+            max-width: 440px;
+        }
+        
+        /* 大屏幕画布优化 */
+        @media (min-width: 1400px) {
+            #gameCanvas {
+                max-width: 480px;
+                border-radius: 15px;
+            }
+        }
+        
+        @media (min-width: 1920px) {
+            #gameCanvas {
+                max-width: 560px;
+                border-radius: 18px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -1198,6 +1296,7 @@
         startScreen.classList.add('visible');
         gameOverScreen.classList.remove('visible');
         settingsScreen.classList.remove('visible');
+        document.getElementById('aboutScreen').classList.remove('visible');
         gameState = 'MENU';
     }
 
