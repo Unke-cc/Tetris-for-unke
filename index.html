@@ -3,10 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>俄罗斯方块 - 液态玻璃版</title>
+    <title>俄罗斯方块unke</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     
     <!-- 音效预加载 -->
     <audio id="moveSound" preload="auto">
-        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" type="audio/wav">
+    </audio>
+</head>
+<body>
+    <div class="tetris-app">
+        <!-- 左侧面板 -->
+        <div class="panel left-panel">
+            <div class="info-box">
+                <h3>暂存</h3>
+                <canvas id="holdCanvas"></canvas>
+            </div>
+            <div class="info-box">
+                <h3>分数</h3>
+                <p id="score">0</p>
+            </div>
+            <div class="info-box">
+                <h3>等级</h3>
+                <p id="level">1</p>
+            </div>
+            <div class="info-box">
+                <h3>行数</h3>
+                <p id="lines">0</p>
+            </div>
+        </div>
+
+        <!-- 游戏区域 -->
+        <div class="game-area">
+            <canvas id="gameCanvas"></canvas>
+            
+            <!-- 开始界面 -->
+            <div id="startScreen" class="game-overlay visible">
+                <h1 class="overlay-title">俄罗斯方块</h1>
+                <p class="overlay-text">液态玻璃版</p>
+                <div class="menu-buttons">
+                    <button class="overlay-button" onclick="startGame('CLASSIC')">经典模式</button>
+                    <button class="overlay-button" onclick="startGame('SPRINT')">冲刺模式 (40行)</button>
+                    <button class="overlay-button" onclick="showSettingsScreen()">设置</button>
+                    <button class="overlay-button" onclick="showAboutScreen()">关于</button>
+                </div>
+            </div>
+
+            <!-- 设置界面 -->
+            <div id="settingsScreen" class="game-overlay">
+                <h2 class="overlay-title">设置</h2>
+                <div class="settings-content">
+                    <div class="setting-item slider-item">
+                        <label for="das-slider">DAS (延迟自动移位): <span id="das-value">160</span>ms</label>
+                        <input type="range" id="das-slider" min="50" max="300" value="160">
+                    </div>
+                    <div class="setting-item slider-item">
+                        <label for="arr-slider">ARR (自动重复速率): <span id="arr-value">40</span>ms</label>
+                        <input type="range" id="arr-slider" min="10" max="100" value="40">
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="ghost-toggle" checked> 显示幽灵方块
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <h3>按键绑定</h3>
+                        <div class="keybinding-grid">
+                            <span>左移:</span>
+                            <button class="keybind-button" data-action="moveLeft">A</button>
+                            <span>右移:</span>
+                            <button class="keybind-button" data-action="moveRight">D</button>
+                            <span>软降:</span>
+                            <button class="keybind-button" data-action="softDrop">S</button>
+                            <span>硬降:</span>
+                            <button class="keybind-button" data-action="hardDrop">W</button>
+                            <span>顺时针旋转:</span>
+                            <button class="keybind-button" data-action="rotateCW">→</button>
+                            <span>逆时针旋转:</span>
+                            <button class="keybind-button" data-action="rotateCCW">←</button>
+                            <span>180°旋转:</span>
+                            <button class="keybind-button" data-action="rotate180">↑</button>
+                            <span>暂存:</span>
+                            <button class="keybind-button" data-action="hold">↓</button>
+                            <span>暂停:</span>
+                            <button class="keybind-button" data-action="pause">P</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-buttons">
+                    <button class="overlay-button" onclick="saveSettings()">保存设置</button>
+                    <button class="overlay-button" onclick="showStartScreen()">返回</button>
+                </div>
+            </div>
+
+            <!-- 暂停界面 -->
+            <div id="pauseScreen" class="game-overlay">
+                <h2 class="overlay-title">游戏暂停</h2>
+                <div class="menu-buttons">
+                    <button class="overlay-button" onclick="togglePause()">继续游戏</button>
+                    <button class="overlay-button" onclick="showStartScreen()">返回主菜单</button>
+                </div>
+            </div>
+
+            <!-- 游戏结束界面 -->
+            <div id="gameOverScreen" class="game-overlay">
+                <h2 class="overlay-title">游戏结束</h2>
+                <p id="finalScoreText" class="overlay-text">最终得分: 0</p>
+                <div class="menu-buttons">
+                    <button class="overlay-button" onclick="startGame('CLASSIC')">再来一局</button>
+                    <button class="overlay-button" onclick="showStartScreen()">返回主菜单</button>
+                </div>
+            </div>
+
+            <!-- 退出确认覆盖层 -->
+            <div id="quitConfirmOverlay" class="quit-confirm-overlay">
+                <div class="quit-confirm-content">
+                    <p>长按 ESC 退出游戏</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 重启确认覆盖层 -->
+            <div id="restartConfirmOverlay" class="quit-confirm-overlay">
+                <div class="quit-confirm-content">
+                    <p>长按 R 重启游戏</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关于界面 -->
+            <div id="aboutScreen" class="game-overlay">
+                <h2 class="overlay-title">关于游戏</h2>
+                <div class="about-content">
+                    <p class="overlay-text">俄罗斯方块 - 液态玻璃版</p>
+                    <p class="overlay-text">特色功能：</p>
+                    <ul>
+                        <li>液态玻璃视觉效果</li>
+                        <li>可自定义按键绑定</li>
+                        <li>DAS/ARR 调节</li>
+                        <li>经典模式和冲刺模式</li>
+                        <li>幽灵方块预览</li>
+                        <li>音效系统</li>
+                    </ul>
+                    <p class="overlay-text">操作说明：</p>
+                    <ul>
+                        <li>移动: A/D 或 ←/→</li>
+                        <li>旋转: ←/→/↑ 箭头键</li>
+                        <li>软降: S 或 ↓</li>
+                        <li>硬降: W 或空格</li>
+                        <li>暂存: ↓ 箭头键</li>
+                        <li>暂停: P</li>
+                        <li>退出: 长按 ESC</li>
+                        <li>重启: 长按 R</li>
+                    </ul>
+                </div>
+                <div class="menu-buttons">
+                    <button class="overlay-button" onclick="showStartScreen()">返回</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧面板 -->
+        <div class="panel right-panel">
+            <div class="info-box">
+                <h3>下一个</h3>
+                <div id="next-previews">
+                    <canvas id="next-1" class="preview-canvas-small"></canvas>
+                    <canvas id="next-2" class="preview-canvas-small"></canvas>
+                    <canvas id="next-3" class="preview-canvas-small"></canvas>
+                    <canvas id="next-4" class="preview-canvas-small"></canvas>
+                    <canvas id="next-5" class="preview-canvas-small"></canvas>
+                </div>
+            </div>
+            <div class="info-box">
+                <h3>最高分</h3>
+                <p id="highScore">0</p>
+            </div>
+            <div id="sprintTimerBox" class="info-box" style="display: none;">
+                <h3>时间</h3>
+                <p id="sprintTimer">0.00</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

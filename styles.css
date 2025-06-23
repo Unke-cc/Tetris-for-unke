@@ -589,3 +589,164 @@ h1::after {
     background-color: #f7b733;
     color: var(--bg-color);
 }
+
+/* 按键绑定网格 */
+.keybinding-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: clamp(8px, 2vw, 12px);
+    align-items: center;
+    width: 100%;
+    margin-top: clamp(8px, 2vw, 12px);
+}
+
+@media (max-width: 480px) {
+    .keybinding-grid {
+        grid-template-columns: 1fr;
+        gap: clamp(6px, 1.5vw, 8px);
+    }
+}
+
+/* 菜单按钮容器 */
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 2vw, 12px);
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+    .menu-buttons {
+        max-width: 250px;
+        gap: clamp(6px, 1.5vw, 8px);
+    }
+}
+
+/* 退出确认覆盖层 */
+.quit-confirm-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: clamp(20px, 4vw, 30px);
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    min-width: 250px;
+    max-width: 90%;
+}
+
+.quit-confirm-overlay.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.quit-confirm-content p {
+    margin: 0 0 clamp(15px, 3vw, 20px) 0;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--text-color);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    width: 0;
+    transition: width 1s linear;
+    border-radius: 4px;
+}
+
+.quit-confirm-overlay.visible .progress-fill {
+    width: 100%;
+}
+
+/* 关于内容样式 */
+.about-content {
+    text-align: left;
+    max-width: 100%;
+    margin: 0 auto clamp(20px, 4vw, 30px) auto;
+}
+
+.about-content ul {
+    margin: clamp(10px, 2vw, 15px) 0;
+    padding-left: clamp(20px, 4vw, 25px);
+}
+
+.about-content li {
+    margin-bottom: clamp(5px, 1vw, 8px);
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    line-height: 1.4;
+}
+
+/* 优化整体布局，防止滚动条 */
+body {
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.tetris-app {
+    max-height: calc(100vh - 40px);
+    overflow: hidden;
+}
+
+.game-overlay {
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.settings-content {
+    max-height: calc(70vh - 100px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* 小屏幕优化 */
+@media (max-height: 600px) {
+    .tetris-app {
+        max-height: calc(100vh - 20px);
+        padding: clamp(10px, 2vw, 15px);
+    }
+    
+    .game-overlay {
+        max-height: calc(100vh - 40px);
+        padding: clamp(10px, 2vw, 15px);
+    }
+    
+    .settings-content {
+        max-height: calc(60vh - 80px);
+    }
+}
+
+@media (max-height: 480px) {
+    .tetris-app {
+        max-height: 100vh;
+        padding: clamp(5px, 1vw, 10px);
+    }
+    
+    .game-overlay {
+        max-height: 100vh;
+        padding: clamp(5px, 1vw, 10px);
+    }
+    
+    .settings-content {
+        max-height: calc(50vh - 60px);
+    }
+}
