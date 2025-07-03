@@ -34,11 +34,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
     margin: 0;
     overflow: hidden;
     position: relative;
+    padding-top: 20px;
 }
 
 body::before {
@@ -69,12 +70,27 @@ h1 {
     position: relative;
 }
 
+/* 游戏标题区域 */
+.game-title {
+    text-align: center;
+    margin-bottom: clamp(20px, 4vw, 40px);
+    z-index: 10;
+}
+
+.game-title .subtitle {
+    margin: 10px 0 0 0;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
 .tetris-logo {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: clamp(2px, 0.5vw, 8px);
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     font-family: 'Orbitron', monospace;
     font-weight: 900;
 }
@@ -163,9 +179,22 @@ h1 {
 }
 
 @media (max-width: 768px) {
+    body {
+        padding-top: 10px;
+    }
+    
+    .game-title {
+        margin-bottom: clamp(15px, 3vw, 25px);
+    }
+    
+    .game-title .subtitle {
+        font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+        letter-spacing: 1px;
+    }
+    
     .tetris-logo {
         gap: clamp(1px, 0.3vw, 4px);
-        margin-bottom: 20px;
+        margin-bottom: 8px;
     }
     
     .tetris-letter {
@@ -178,6 +207,23 @@ h1 {
 
 /* 大屏幕标题优化 */
 @media (min-width: 1400px) {
+    body {
+        padding-top: 30px;
+    }
+    
+    .game-title {
+        margin-bottom: clamp(30px, 5vw, 50px);
+    }
+    
+    .game-title .subtitle {
+        font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+        letter-spacing: 3px;
+    }
+    
+    .tetris-logo {
+        margin-bottom: 15px;
+    }
+    
     h1 {
         font-size: clamp(2.5rem, 3.5vw, 4rem);
         margin-bottom: 40px;
@@ -186,6 +232,23 @@ h1 {
 }
 
 @media (min-width: 1920px) {
+    body {
+        padding-top: 40px;
+    }
+    
+    .game-title {
+        margin-bottom: clamp(40px, 6vw, 60px);
+    }
+    
+    .game-title .subtitle {
+        font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+        letter-spacing: 4px;
+    }
+    
+    .tetris-logo {
+        margin-bottom: 20px;
+    }
+    
     h1 {
         font-size: clamp(3rem, 3vw, 4.5rem);
         margin-bottom: 50px;
@@ -222,6 +285,7 @@ h1::after {
     overflow: hidden;
     max-width: min(95vw, 1600px);
     margin: 0 auto;
+    margin-top: 0;
 }
 
 /* 大屏幕优化 */

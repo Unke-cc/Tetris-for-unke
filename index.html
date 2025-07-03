@@ -13,6 +13,19 @@
     </audio>
 </head>
 <body>
+    <!-- 游戏标题 -->
+    <div class="game-title">
+        <div class="tetris-logo">
+            <span class="tetris-letter">T</span>
+            <span class="tetris-letter">E</span>
+            <span class="tetris-letter">T</span>
+            <span class="tetris-letter">R</span>
+            <span class="tetris-letter">I</span>
+            <span class="tetris-letter">S</span>
+        </div>
+        <p class="subtitle">by unke</p>
+    </div>
+    
     <div class="tetris-app">
         <!-- 左侧面板 -->
         <div class="panel left-panel">
@@ -40,15 +53,7 @@
             
             <!-- 开始界面 -->
             <div id="startScreen" class="game-overlay visible">
-                <div class="tetris-logo">
-                    <span class="tetris-letter">T</span>
-                    <span class="tetris-letter">E</span>
-                    <span class="tetris-letter">T</span>
-                    <span class="tetris-letter">R</span>
-                    <span class="tetris-letter">I</span>
-                    <span class="tetris-letter">S</span>
-                </div>
-                <p class="overlay-text">by unke</p>
+                <h2 class="overlay-title">选择游戏模式</h2>
                 <div class="menu-buttons">
                     <button class="overlay-button" onclick="startGame('CLASSIC')">经典模式</button>
                     <button class="overlay-button" onclick="startGame('SPRINT')">冲刺模式 (40行)</button>
